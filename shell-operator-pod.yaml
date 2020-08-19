@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shell-operator
+spec:
+  containers:
+  - name: shell-operator
+    image: koza/shell-operator-example:v0.0.1
+    imagePullPolicy: IfNotPresent
+  serviceAccountName: monitor-pods-acc
