@@ -19,4 +19,5 @@ kubernetes:
         print("env: ", os.getenv('BINDING_CONTEXT_PATH'))
         with open(os.getenv('BINDING_CONTEXT_PATH'), 'r') as f:
             data = json.load(f)
-            print("New Pod ", data[0]['object']['metadata']['name'], " added")
+            print("new Pod ", data, " added")
+            #print("New Pod ", data[0]['object']['metadata']['name'], " added")
