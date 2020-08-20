@@ -5,6 +5,6 @@ metadata:
 spec:
   containers:
   - name: shell-operator
-    image: koza/shell-operator-example:v0.0.1
+    image: koza/shell-operator-example:v0.0.2
     imagePullPolicy: IfNotPresent
   serviceAccountName: monitor-pods-acc
