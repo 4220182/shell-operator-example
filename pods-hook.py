@@ -2,6 +2,7 @@
 
 import sys
 import os
+import json
 
 if __name__ == "__main__":
     if len(sys.argv)>1 and sys.argv[1] == "--config":
@@ -16,3 +17,6 @@ kubernetes:
     else:
         print("OnStartup Python powered hook")
         print("env: ", os.getenv('BINDING_CONTEXT_PATH'))
+        with open(os.getenv('BINDING_CONTEXT_PATH'), 'r') as f:
+            data = json.load(f)
+            print("New Pod ", data[0]['object']['metadata']['name'], " added")
