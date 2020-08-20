@@ -6,5 +6,5 @@ spec:
   containers:
   - name: shell-operator
     image: koza/shell-operator-example:latest
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: Always
   serviceAccountName: monitor-pods-acc

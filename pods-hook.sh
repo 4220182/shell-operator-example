@@ -10,6 +10,6 @@ kubernetes:
 EOF
 else
   podName=$(jq -r .[0].object.metadata.name $BINDING_CONTEXT_PATH)
-  echo "${BINDING_CONTEXT_PATH}" >/tmp/tmp-pod.json
+  cat ${BINDING_CONTEXT_PATH} >/tmp/tmp-pod.json
   echo "New Pod '${podName}' added"
 fi
