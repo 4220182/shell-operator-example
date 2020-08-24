@@ -8,6 +8,7 @@ kubernetes:
   kind: Pod
   executeHookOnEvent:
   - Added
+  - Deleted
 EOF
 else
   echo "TEST Start"
