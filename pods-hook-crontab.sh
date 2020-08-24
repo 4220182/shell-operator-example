@@ -12,5 +12,6 @@ else
   echo "TEST Start"
   binding=$(cat $BINDING_CONTEXT_PATH)
   echo "TEST Message from 'schedule' hook with 6 fields crontab: $binding"
+  kubectl rollout restart deployment/koza
   echo "TEST End"
 fi
