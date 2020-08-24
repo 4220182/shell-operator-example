@@ -26,4 +26,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: monitor-pods-acc
-    namespace: example-monitor-pods
+    namespace: default
