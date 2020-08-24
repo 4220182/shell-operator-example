@@ -9,6 +9,7 @@ kubernetes:
   executeHookOnEvent:
   - Added
   - Deleted
+  - Modified
 EOF
 else
   echo "TEST Start"
