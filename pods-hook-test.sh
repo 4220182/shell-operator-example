@@ -1,38 +1,46 @@
 #!/usr/bin/env bash
 
+ARRAY_COUNT=`jq -r '. | length-1' $BINDING_CONTEXT_PATH`
+
 if [[ $1 == "--config" ]] ; then
   cat <<EOF
 configVersion: v1
 kubernetes:
-- name: OnCreateDeletePod
-  apiVersion: v1
-  kind: horizontalpodautoscalers
+- name: OnCreateDeleteTest
+  apiVersion: apps/v1
+  kind: Deployment
   executeHookOnEvent:
   - Added
   - Deleted
-- name: OnModifiedPod
-  apiVersion: v1
-  kind: horizontalpodautoscalers
+- name: OnModifiedTest
+  apiVersion: apps/v1
+  kind: Deployment
   executeHookOnEvent:
   - Modified
+  jqFilter: ".metadata.labels"
 EOF
 else
-  echo "TEST Start"
-
+  # ignore Synchronization for simplicity
   type=$(jq -r '.[0].type' $BINDING_CONTEXT_PATH)
-  bindingName=`jq -r ".[$IND].binding" $BINDING_CONTEXT_PATH`
-  resourceEvent=$(jq -r '.[0].watchEvent' $BINDING_CONTEXT_PATH)
-  resourceName=$(jq -r '.[0].object.metadata.name' $BINDING_CONTEXT_PATH)
-
-  echo "TEST type: '${type}'"
-  echo "TEST bindingName: '${bindingName}'"
-  echo "TEST resourceEvent: '${resourceEvent}'"
-  echo "TEST resourceName: '${resourceName}'"
-  cat $BINDING_CONTEXT_PATH >/tmp/context.json
-
-  if [[ $type == "Event" ]] ; then
-    podName=$(jq -r '.[0].object.metadata.name' $BINDING_CONTEXT_PATH)
-    echo "Pod '${podName}' added"
+  if [[ $type == "Synchronization" ]] ; then
+    echo Got Synchronization event
+    exit 0
   fi
-  echo "TEST End"
+
+  for IND in `seq 0 $ARRAY_COUNT`
+  do
+    bindingName=`jq -r ".[$IND].binding" $BINDING_CONTEXT_PATH`
+    resourceEvent=`jq -r ".[$IND].watchEvent" $BINDING_CONTEXT_PATH`
+    resourceName=`jq -r ".[$IND].object.metadata.name" $BINDING_CONTEXT_PATH`
+
+    if [[ $bindingName == "OnModifiedTest" ]] ; then
+      echo "Namespace $resourceName labels were modified"
+    else
+      if [[ $resourceEvent == "Added" ]] ; then
+        echo "Namespace $resourceName was created"
+      else
+        echo "Namespace $resourceName was deleted"
+      fi
+    fi
+  done
 fi

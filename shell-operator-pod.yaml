@@ -5,6 +5,6 @@ metadata:
 spec:
   containers:
   - name: shell-operator
-    image: koza/shell-operator-example:latest-crontab
+    image: koza/shell-operator-example:latest
     imagePullPolicy: Always
   serviceAccountName: monitor-pods-acc

@@ -11,7 +11,7 @@ metadata:
   name: monitor-pods
 rules:
 - apiGroups: [""]
-  resources: ["pods"]
+  resources: ["horizontalpodautoscalers"]
   verbs: ["get", "watch", "list"]
 
 ---
@@ -22,7 +22,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: monitor-pods
+  name: cluster-amdin
 subjects:
   - kind: ServiceAccount
     name: monitor-pods-acc
