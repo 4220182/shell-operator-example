@@ -7,13 +7,23 @@ if [[ $1 == "--config" ]] ; then
 configVersion: v1
 kubernetes:
 - name: OnCreateDeleteTest
-  apiVersion: apps/v1
+  apiVersion: extensions/v1beta1
   kind: Deployment
+  nameSelector:
+    matchNames:
+    - busybox
+  labelSelector:
+    matchLabels:
+      managed-secret: "yes"
+  namespace:
+    nameSelector:
+      matchNames:
+        - default
   executeHookOnEvent:
   - Added
   - Deleted
 - name: OnModifiedTest
-  apiVersion: apps/v1
+  apiVersion: extensions/v1beta1
   kind: Deployment
   executeHookOnEvent:
   - Modified
