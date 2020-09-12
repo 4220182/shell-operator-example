@@ -14,7 +14,7 @@ kubernetes:
     - busybox
   labelSelector:
     matchLabels:
-      managed-secret: "yes"
+      app: busybox
   namespace:
     nameSelector:
       matchNames:
